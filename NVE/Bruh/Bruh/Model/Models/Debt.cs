@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bruh.Model.Models
 {
-    public class Debt
+    public class Debt : IModel
     {
         public int ID { get; set; }
         public string? Title { get; set; }

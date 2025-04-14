@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bruh.Model.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,10 @@ namespace Bruh.Model.DBs
 
     public interface ISampleDB
     {
-        public bool Insert(object obj);
-        public bool Update(object obj);
+        public bool Insert(IModel obj);
+        public bool Update(IModel obj);
+        public bool Remove(IModel obj);
+        
     }
 
     public class DB<T> where T : ISampleDB, new()

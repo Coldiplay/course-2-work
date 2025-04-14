@@ -204,11 +204,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Student\\source\\repos\\Bruh\\Bruh\\Bruh.csproj",
+      "projectUniqueName": "C:\\Users\\Student\\Desktop\\NVE\\Bruh\\Bruh\\Bruh.csproj",
       "projectName": "Bruh",
-      "projectPath": "C:\\Users\\Student\\source\\repos\\Bruh\\Bruh\\Bruh.csproj",
+      "projectPath": "C:\\Users\\Student\\Desktop\\NVE\\Bruh\\Bruh\\Bruh.csproj",
       "packagesPath": "C:\\Users\\Student\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Student\\source\\repos\\Bruh\\Bruh\\obj\\",
+      "outputPath": "C:\\Users\\Student\\Desktop\\NVE\\Bruh\\Bruh\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
