@@ -9,8 +9,11 @@ namespace Bruh.Model.Models
     public class Debt : IModel
     {
         public int ID { get; set; }
-        public string? Title { get; set; }
         public decimal Summ { get; set; }
         public short AnnualInterest { get; set; }
+        public int CurrencyID { get; set; }
+        public string? Title { get; set; }
+        public DateTime DateOfPick { get; set; }
+        public DateTime DateOfReturn { get; set; }
     }
 }

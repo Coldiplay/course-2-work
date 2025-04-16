@@ -11,19 +11,16 @@ namespace Bruh.VMTools
     {
         public static bool Try(Action action)
         {
-            bool result = false;
-
             try
             {
                 action();
-                result = true;
+                return true;
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);            
+                MessageBox.Show(e.Message);
+                return false;
             }
-
-            return result;
         }
     }
 }

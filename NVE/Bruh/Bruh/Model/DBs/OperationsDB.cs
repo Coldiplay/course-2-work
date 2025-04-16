@@ -3,6 +3,7 @@ using Bruh.VMTools;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,15 +13,17 @@ namespace Bruh.Model.DBs
 {
     public class OperationsDB : ISampleDB
     {
-
         public List<Operation> GetOperations(string filter)
         {
             List<Operation> operations = new();
             if (DbConnection.GetDbConnection() == null)
                 return operations;
 
-            using (var cmd = DbConnection.GetDbConnection().CreateCommand("SELECT `ID`, `Title`, `Cost`, `TransactDate`, `DateOfCreate`, `Income`, `Description`, `PeriodicityID`, `CategoryID`, `DebtID`, `BankAccountID` FROM `Operations`"))
+            using (var cmd = DbConnection.GetDbConnection().CreateCommand("SELECT `ID`, `Title`, `Cost`, `TransactDate`, `DateOfCreate`, `Income`, `Description`, `PeriodicityID`, `CategoryID`, `DebtID`, `BankAccountID` FROM `Operations` WHERE `Title` LIKE '%@filter%' OR `Cost` LIKE '%@filter%' OR `Description` LIKE '%@filter%' OR `TransactDate` LIKE '%@filter%' "))
             {
+                cmd.Parameters.Add(new MySqlParameter("filter", filter));
+
+                DbConnection.GetDbConnection().OpenConnection();
                 ExeptionHandler.Try(() =>
                 {
                     using (MySqlDataReader dr = cmd.ExecuteReader())
@@ -32,16 +35,21 @@ namespace Bruh.Model.DBs
                                 ID = dr.GetInt32("ID"),
                                 Title = dr.GetString("Title"),
                                 Cost = dr.GetDecimal("Cost"),
-                                TransactDate = dr.GetDateOnly("TransactDate").ToDateTime(new TimeOnly())
-
+                                TransactDate = dr.GetDateOnly("TransactDate").ToDateTime(new TimeOnly()),
+                                DateOfCreate = dr.GetDateOnly("DateOfCreate").ToDateTime(new TimeOnly()),
+                                Income = dr.GetBoolean("Income"),
+                                Description = dr.IsDBNull("Description") ? null : dr.GetString("Description"),
+                                PeriodicityID = dr.IsDBNull("PeriodicityID") ? null : dr.GetInt32("PeriodicityID"),
+                                CategoryID = dr.GetInt32("CategoryID"),
+                                DebtID = dr.IsDBNull("DebtID") ? null : dr.GetInt32("DebtID"),
+                                BankAccountID = dr.GetInt32("BankAccountID")
                             });
-                        }
-                        
+                        }                        
                     }
-                });            
+
+                });
+                DbConnection.GetDbConnection().CloseConnection();
             }
-
-
                 return operations;
         }
 
@@ -53,7 +61,7 @@ namespace Bruh.Model.DBs
             if (DbConnection.GetDbConnection() == null)
                 return result;
 
-            using (MySqlCommand cmd = DbConnection.GetDbConnection().CreateCommand("INSERT INTO `Operations` VALUES(0, @title, @cost, @transactDate, @DateOfCreate, @income, @description,  @periodicityId, @categotyId, @debtId, bankAccountId); SELECT LAST_INSERT_ID();"))
+            using (MySqlCommand cmd = DbConnection.GetDbConnection().CreateCommand("INSERT INTO `Operations` VALUES(0, @title, @cost, @transactDate, @DateOfCreate, @income, @description,  @periodicityId, @categotyId, @debtId, @bankAccountId); SELECT LAST_INSERT_ID();"))
             {
                 cmd.Parameters.Add(new MySqlParameter("title", operation.Title));
                 cmd.Parameters.Add(new MySqlParameter("cost", operation.Cost));

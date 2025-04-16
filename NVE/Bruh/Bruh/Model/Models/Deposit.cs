@@ -17,7 +17,7 @@ namespace Bruh.Model.Models
         public int InterestRate { get; set; }
         public string PeriodicityOfPayment { get; set; }
         public int BankID { get; set; }
-        public int TypeOfDeposit { get; set; }
+        public int TypeOfDepositID { get; set; }
         public int CurrencyID { get; set; }
     }
 }
